@@ -8,6 +8,7 @@
 6. 语言切换：vue-i18n
 7. UI库：element-plus
 8. 仓库持久化：pinia-plugin-persist
+9. 图标：element-plus-icons-vue
 
 
 ##跨域解决方案

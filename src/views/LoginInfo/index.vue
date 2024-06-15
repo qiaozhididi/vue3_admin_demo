@@ -6,6 +6,7 @@
       </div>
       <el-form-item prop="username">
         <el-input
+          :prefix-icon="User"
           type="text"
           v-model="user.username"
           placeholder="请输入用户名"
@@ -14,6 +15,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input
+          :prefix-icon="Lock"
           type="password"
           v-model="user.password"
           placeholder="请输入密码"
@@ -31,6 +33,7 @@
 </template>
 
 <script setup>
+import { User, Lock } from "@element-plus/icons-vue";
 import { reactive } from "vue";
 import api from "@/api/index.js";
 import { useLoginStore } from "@/stores/loginStore.js";
@@ -41,7 +44,6 @@ import { useRouter } from "vue-router";
 const loginStore = useLoginStore();
 //获取路由对象
 const router = useRouter();
-
 
 //声明用户信息
 const user = reactive({
