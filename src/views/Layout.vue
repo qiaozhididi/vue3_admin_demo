@@ -10,6 +10,7 @@
         <router-view></router-view>
       </div>
     </div>
+    <drawer-setting></drawer-setting>
   </div>
 </template>
 <script setup>
@@ -21,6 +22,7 @@ import { onMounted } from "vue";
 import api from "@/api/index";
 import { useRouter } from "vue-router";
 import manageRouter from "@/router/dynamicRoute";
+import DrawerSetting from "@/components/DrawerSetting/index.vue";
 
 const menuStore = useMenuStore();
 const loginStore = useLoginStore();
@@ -28,22 +30,22 @@ const router = useRouter();
 
 // 用户权限的路由获取
 onMounted(() => {
-    api
-      .getRouter({
-        user: loginStore.permission,
-      })
-      .then((res) => {
-        if (res.data.status === 200) {
-          menuStore.menus = res.data.menuData.menus;
-          //判断当前用户权限
-          if (loginStore.permission === "admin") {
-            router.addRoute("layout", manageRouter);
-          }
+  api
+    .getRouter({
+      user: loginStore.permission,
+    })
+    .then((res) => {
+      if (res.data.status === 200) {
+        menuStore.menus = res.data.menuData.menus;
+        //判断当前用户权限
+        if (loginStore.permission === "admin") {
+          router.addRoute("layout", manageRouter);
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 </script>
 <style>
