@@ -68,6 +68,14 @@ const router = createRouter({
             requireAuth: true,
           },
         },
+        {
+          path: "/info",
+          name: "info",
+          component: () => import("../views/UserCenter/index.vue"),
+          meta: {
+            requireAuth: true,
+          },
+        },
       ],
     },
     {
