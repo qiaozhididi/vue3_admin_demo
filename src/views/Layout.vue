@@ -19,24 +19,31 @@ import { useMenuStore } from "@/stores/menuStore";
 import { useLoginStore } from "@/stores/loginStore";
 import { onMounted } from "vue";
 import api from "@/api/index";
+import { useRouter } from "vue-router";
+import manageRouter from "@/router/dynamicRoute";
 
 const menuStore = useMenuStore();
 const loginStore = useLoginStore();
+const router = useRouter();
 
 // 用户权限的路由获取
 onMounted(() => {
-  api
-    .getRouter({
-      user: loginStore.permission,
-    })
-    .then((res) => {
-      if (res.data.status === 200) {
-        menuStore.menus = res.data.menuData.menus;
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    api
+      .getRouter({
+        user: loginStore.permission,
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          menuStore.menus = res.data.menuData.menus;
+          //判断当前用户权限
+          if (loginStore.permission === "admin") {
+            router.addRoute("layout", manageRouter);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 });
 </script>
 <style>

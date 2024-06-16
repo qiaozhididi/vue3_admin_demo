@@ -41,15 +41,6 @@ const router = createRouter({
           },
         },
         {
-          path: "/work",
-          name: "work",
-          component: () => import("../views/WorkManage/index.vue"),
-          meta: {
-            requireAuth: true,
-            key: "工作监督管理",
-          },
-        },
-        {
           path: "/build",
           name: "build",
           component: () => import("../views/BuildManage/index.vue"),
@@ -91,6 +82,13 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: LoginInfo,
+    },
+
+    //404页面路径匹配规则 没找到对应路径地址
+    {
+      path: "/:pathMatch(.*)*",
+      name: "notFound",
+      component: () => import("../views/NotFound/404.vue"),
     },
   ],
 });

@@ -8,7 +8,7 @@ const api = {
   },
   //用户权限菜单
   getRouter(params) {
-    return axios.get(base.baseUrl + base.router, params);
+    return axios.get(base.baseUrl + base.router, { params });
   },
 };
 

@@ -10,7 +10,7 @@ import { vipData } from "./data/vip.js";
 // 登录接口
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const sql = "SELECT * FROM user WHERE username = ? AND password = ?";
   SQLConnect(sql, [username, password], (result) => {
     if (result.length > 0) {
@@ -61,8 +61,8 @@ router.get("/router", (req, res) => {
       break;
     default:
       res.send({
-        status: 200,
-        menuData: vipData,
+        status: 500,
+        menuData: [],
       });
       break;
   }
