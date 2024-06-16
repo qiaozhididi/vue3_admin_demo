@@ -1,5 +1,8 @@
 <template>
-  <div class="slider-navs">
+  <div
+    class="slider-navs"
+    :style="{ width: menuStore.isCollapse ? '64px' : '210px' }"
+  >
     <div class="logo">工程管理系统</div>
     <el-menu
       class="el-menu"
@@ -47,8 +50,6 @@ import { useMenuStore } from "@/stores/menuStore";
 
 const menuStore = useMenuStore();
 const active = ref("/");
-
-const isCollapse = menuStore.isCollapse;
 </script>
 <style scoped>
 .slider-navs {
@@ -58,6 +59,7 @@ const isCollapse = menuStore.isCollapse;
   bottom: 0;
   width: 210px;
   background-color: #304156;
+  transition: 0.3s ease-in;
 }
 .logo {
   height: 60px;
