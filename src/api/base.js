@@ -3,8 +3,9 @@
  */
 
 const base = {
-  baseUrl: "http://localhost:3000",
-  // 登录
-  login: "/api/login",
+  baseUrl: "http://localhost:3000", //公共地址
+  login: "/api/login",     // 登录
+  router:"/api/router"    //用户权限菜单
+
 };
 export default base;

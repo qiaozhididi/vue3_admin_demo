@@ -16,8 +16,28 @@
 import SliderNavs from "@/components/SliderNavs/index.vue";
 import TopNavs from "@/components/TopNavs/index.vue";
 import { useMenuStore } from "@/stores/menuStore";
+import { useLoginStore } from "@/stores/loginStore";
+import { onMounted } from "vue";
+import api from "@/api/index";
 
 const menuStore = useMenuStore();
+const loginStore = useLoginStore();
+
+// 用户权限的路由获取
+onMounted(() => {
+  api
+    .getRouter({
+      user: loginStore.permission,
+    })
+    .then((res) => {
+      if (res.data.status === 200) {
+        menuStore.menus = res.data.menuData.menus;
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 </script>
 <style>
 .right-container {
