@@ -3,7 +3,7 @@
     class="slider-navs"
     :style="{ width: menuStore.isCollapse ? '64px' : '210px' }"
   >
-    <div class="logo">工程管理系统</div>
+    <div class="logo">{{ menuStore.isCollapse ? "工程" : "工程管理系统" }}</div>
     <el-menu
       class="el-menu"
       background-color="#304156"
@@ -49,7 +49,12 @@ import { ref } from "vue";
 import { useMenuStore } from "@/stores/menuStore";
 
 const menuStore = useMenuStore();
+
+//修复刷新页面的菜单字体高亮
 const active = ref("/");
+if (localStorage.getItem("active")) {
+  active.value = localStorage.getItem("active");
+}
 </script>
 <style scoped>
 .slider-navs {

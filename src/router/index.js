@@ -3,6 +3,7 @@ import Layout from "../views/Layout.vue";
 import HomeView from "../views/HomeView/index.vue";
 import LoginInfo from "../views/LoginInfo/index.vue";
 import { useLoginStore } from "@/stores/loginStore";
+import { useMenuStore } from "@/stores/menuStore";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,7 @@ const router = createRouter({
           component: HomeView,
           meta: {
             requireAuth: true,
+            key: "首页",
           },
         },
         {
@@ -26,6 +28,7 @@ const router = createRouter({
           component: () => import("../views/ProjectInfo/index.vue"), // 异步 懒加载
           meta: {
             requireAuth: true,
+            key: "项目基础信息",
           },
         },
         {
@@ -34,6 +37,7 @@ const router = createRouter({
           component: () => import("../views/TunnelInfo/index.vue"),
           meta: {
             requireAuth: true,
+            key: "隧道设计信息",
           },
         },
         {
@@ -42,6 +46,7 @@ const router = createRouter({
           component: () => import("../views/WorkManage/index.vue"),
           meta: {
             requireAuth: true,
+            key: "工作监督管理",
           },
         },
         {
@@ -50,6 +55,7 @@ const router = createRouter({
           component: () => import("../views/BuildManage/index.vue"),
           meta: {
             requireAuth: true,
+            key: "施工监控检测",
           },
         },
         {
@@ -58,6 +64,7 @@ const router = createRouter({
           component: () => import("../views/GeologicalInfo/index.vue"),
           meta: {
             requireAuth: true,
+            key: "超前地质预报",
           },
         },
         {
@@ -66,6 +73,7 @@ const router = createRouter({
           component: () => import("../views/SystemManage/index.vue"),
           meta: {
             requireAuth: true,
+            key: "系统信息管理",
           },
         },
         {
@@ -74,6 +82,7 @@ const router = createRouter({
           component: () => import("../views/UserCenter/index.vue"),
           meta: {
             requireAuth: true,
+            key: "个人中心",
           },
         },
       ],
@@ -103,6 +112,16 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next();
+  }
+});
+
+router.afterEach((to, from) => {
+  //存储路由路径
+  localStorage.setItem("active", to.path);
+  if (to.meta.key) {
+    //存储key信息
+    const menuStore = useMenuStore();
+    menuStore.breadcrumb = to.meta.key;
   }
 });
 

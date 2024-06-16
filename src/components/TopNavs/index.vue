@@ -3,16 +3,23 @@ el-dropdown
   <div class="nav">
     <div class="toggle-menu">
       <div class="toggle-menu-toggle">
-        <el-icon class="icon" v-if="menuStore.isCollapse"@click="openMenu(false)"><Expand /></el-icon>
-        <el-icon class="icon" v-else="menuStore.isCollapse" @click="closeMenu(true)"><Fold /></el-icon>
+        <el-icon
+          class="icon"
+          v-if="menuStore.isCollapse"
+          @click="openMenu(false)"
+          ><Expand
+        /></el-icon>
+        <el-icon
+          class="icon"
+          v-else="menuStore.isCollapse"
+          @click="closeMenu(true)"
+          ><Fold
+        /></el-icon>
       </div>
       <div class="toggle-menu-breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item>当前</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <!-- <el-breadcrumb-item v-for="(item, index) in $route.matched" :key="index">
-            {{ item.meta.title }}
-          </el-breadcrumb-item> -->
+          <el-breadcrumb-item>{{ menuStore.breadcrumb }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <div class="user">
@@ -55,7 +62,6 @@ const logoutHandler = () => {
 //关闭菜单栏
 const closeMenu = (flag) => {
   menuStore.isCollapse = flag;
-  
 };
 //打开菜单栏
 const openMenu = (flag) => {
