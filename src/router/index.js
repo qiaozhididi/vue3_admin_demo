@@ -76,6 +76,24 @@ const router = createRouter({
             key: "个人中心",
           },
         },
+        {
+          path: "/plan",
+          name: "检测计划",
+          component: () => import("../views/BuildManage/PlanTest/index.vue"),
+          meta: {
+            requireAuth: true,
+            key: "检测计划",
+          },
+        },
+        {
+          path: "/section",
+          name: "切面检测",
+          component: () => import("../views/BuildManage/SectionTest/index.vue"),
+          meta: {
+            requireAuth: true,
+            key: "切面检测",
+          },
+        },
       ],
     },
     {
