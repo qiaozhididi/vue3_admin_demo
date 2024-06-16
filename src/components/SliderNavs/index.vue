@@ -7,21 +7,48 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
       :default-active="active"
+      :collapse="menuStore.isCollapse"
       router
     >
-      <el-menu-item index="/"><span>首页</span></el-menu-item>
-      <el-menu-item index="/project"><span>项目基础信息</span></el-menu-item>
-      <el-menu-item index="/tunnel"><span>隧道设计信息</span></el-menu-item>
-      <el-menu-item index="/work"><span>工作监督案例</span></el-menu-item>
-      <el-menu-item index="/build"><span>施工情况监督</span></el-menu-item>
-      <el-menu-item index="/geological"><span>超前地质预报</span></el-menu-item>
-      <el-menu-item index="/system"><span>系统信息管理</span></el-menu-item>
+      <el-menu-item index="/">
+        <el-icon><HomeFilled /></el-icon>
+        <span>首页</span>
+      </el-menu-item>
+      <el-menu-item index="/project">
+        <el-icon><DataLine /></el-icon>
+        <span>项目基础信息</span>
+      </el-menu-item>
+      <el-menu-item index="/tunnel">
+        <el-icon><Guide /></el-icon>
+        <span>隧道设计信息</span>
+      </el-menu-item>
+      <el-menu-item index="/work">
+        <el-icon><Document /></el-icon>
+        <span>工作监督案例</span>
+      </el-menu-item>
+      <el-menu-item index="/build">
+        <el-icon><Monitor /></el-icon>
+        <span>施工情况监督</span>
+      </el-menu-item>
+      <el-menu-item index="/geological">
+        <el-icon><WarnTriangleFilled /></el-icon>
+        <span>超前地质预报</span>
+      </el-menu-item>
+      <el-menu-item index="/system">
+        <el-icon><Tools /></el-icon>
+        <span>系统信息管理</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
-<script>
+<script setup>
 import { ref } from "vue";
+import { useMenuStore } from "@/stores/menuStore";
+
+const menuStore = useMenuStore();
 const active = ref("/");
+
+const isCollapse = menuStore.isCollapse;
 </script>
 <style scoped>
 .slider-navs {

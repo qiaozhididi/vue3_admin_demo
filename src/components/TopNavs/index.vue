@@ -3,7 +3,8 @@ el-dropdown
   <div class="nav">
     <div class="toggle-menu">
       <div class="toggle-menu-toggle">
-        <el-icon class="icon"><Expand /></el-icon>
+        <el-icon class="icon" v-if="menuStore.isCollapse"@click="openMenu(false)"><Expand /></el-icon>
+        <el-icon class="icon" v-else="menuStore.isCollapse" @click="closeMenu(true)"><Fold /></el-icon>
       </div>
       <div class="toggle-menu-breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -22,9 +23,9 @@ el-dropdown
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="info" >
-               <router-link to="/info" >个人中心</router-link> 
-            </el-dropdown-item>
+              <el-dropdown-item command="info">
+                <router-link to="/info">个人中心</router-link>
+              </el-dropdown-item>
               <el-dropdown-item command="logout" @click="logoutHandler"
                 >退出登录</el-dropdown-item
               >
@@ -37,15 +38,28 @@ el-dropdown
 </template>
 <script setup>
 import { useLoginStore } from "@/stores/loginStore";
+import { useMenuStore } from "@/stores/menuStore";
 import { useRouter } from "vue-router";
 const loginStore = useLoginStore();
 const router = useRouter();
+const menuStore = useMenuStore();
+
 //退出登录，清空存储数据
 const logoutHandler = () => {
   loginStore.token = "";
   loginStore.permission = "";
   loginStore.username = "";
   router.push("/login");
+};
+
+//关闭菜单栏
+const closeMenu = (flag) => {
+  menuStore.isCollapse = flag;
+  
+};
+//打开菜单栏
+const openMenu = (flag) => {
+  menuStore.isCollapse = flag;
 };
 </script>
 <style scoped>
