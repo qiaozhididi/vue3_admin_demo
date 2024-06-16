@@ -3,7 +3,9 @@
     class="slider-navs"
     :style="{ width: menuStore.isCollapse ? '64px' : '210px' }"
   >
-    <div class="logo">{{ menuStore.isCollapse ? "工程" : "工程管理系统" }}</div>
+    <div class="logo" v-show="systemStore.toggleStore">
+      {{ menuStore.isCollapse ? "工程" : "工程管理系统" }}
+    </div>
     <el-menu
       class="el-menu"
       background-color="#304156"
@@ -41,8 +43,18 @@
 <script setup>
 import { ref } from "vue";
 import { useMenuStore } from "@/stores/menuStore";
+import { useSystemStore } from "@/stores/systemStore";
 
 const menuStore = useMenuStore();
+const systemStore = useSystemStore();
+
+//组件传值
+// const props = defineProps({
+//   myToggle: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
 
 //修复刷新页面的菜单字体高亮
 const active = ref("/");

@@ -14,16 +14,23 @@
     <el-drawer title="设置" v-model="drawer" direction="rtl" size="20%">
       <div class="logo-show">
         <span>Logo显示与隐藏</span>
-        <el-switch class="logo-switch" v-model="logoToggle" />
+        <el-switch class="logo-switch" v-model="systemStore.toggleStore" />
       </div>
     </el-drawer>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-const drawer = ref(false);
+import { ref, watch } from "vue";
+import { useSystemStore } from "@/stores/systemStore";
 
+const drawer = ref(false);
 const logoToggle = ref(false);
+const emit = defineEmits(["onToggleEvent"]);
+const systemStore = useSystemStore();
+
+watch(logoToggle, (newValue, oldValue) => {
+  emit("onToggleEvent", newValue);
+});
 </script>
 <style scoped>
 .setting {

@@ -1,6 +1,7 @@
 <template>
   <div class="layout-container">
-    <slider-navs></slider-navs>
+    <drawer-setting @onToggleEvent="getToggleEvent"></drawer-setting>
+    <slider-navs :myToggle="myToggle"></slider-navs>
     <div
       class="right-container"
       :style="{ marginLeft: menuStore.isCollapse ? '64px' : '210px' }"
@@ -10,7 +11,6 @@
         <router-view></router-view>
       </div>
     </div>
-    <drawer-setting></drawer-setting>
   </div>
 </template>
 <script setup>
@@ -18,7 +18,7 @@ import SliderNavs from "@/components/SliderNavs/index.vue";
 import TopNavs from "@/components/TopNavs/index.vue";
 import { useMenuStore } from "@/stores/menuStore";
 import { useLoginStore } from "@/stores/loginStore";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import api from "@/api/index";
 import { useRouter } from "vue-router";
 import manageRouter from "@/router/dynamicRoute";
@@ -47,6 +47,11 @@ onMounted(() => {
       console.log(err);
     });
 });
+//使用组件传值的方式 设置控制Logo隐藏 
+// const myToggle = ref(false);
+// const getToggleEvent = (val) => {
+//     myToggle.value = val;
+// };
 </script>
 <style>
 .right-container {
