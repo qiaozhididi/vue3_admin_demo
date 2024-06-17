@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { jwtSecret } from "./jwtSecret.js";
 import { adminData } from "./data/admin.js";
 import { vipData } from "./data/vip.js";
+import { lineData } from "./data/line.js";
 
 // 登录接口
 router.post("/login", (req, res) => {
@@ -66,6 +67,14 @@ router.get("/router", (req, res) => {
       });
       break;
   }
+});
+
+// 折线图数据接口
+router.get("/line", (req, res) => {
+  res.send({
+    status: 200,
+    lineData: lineData,
+  });
 });
 
 export default router;

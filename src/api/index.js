@@ -10,6 +10,10 @@ const api = {
   getRouter(params) {
     return axios.get(base.baseUrl + base.router, { params });
   },
+  //获取line图表数据
+  getLineData() {
+    return axios.get(base.baseUrl + base.line);
+  },
 };
 
 export default api;

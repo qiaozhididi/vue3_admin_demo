@@ -20,12 +20,31 @@
     </div>
   </div>
   <div class="line" id="line"></div>
+  <div class="charts">
+    <div class="chart-radar" id="chart-radar"></div>
+    <div class="chart-pie" id="chart-pie"></div>
+    <div class="chart-bar" id="chart-bar"></div>
+  </div>
 </template>
 <script setup>
 import { getCurrentInstance, onMounted } from "vue";
+import api from "@/api/index";
 const { proxy } = getCurrentInstance();
 onMounted(() => {
-  proxy.$line("line");
+  api
+    .getLineData()
+    .then((res) => {
+      if (res.data.status === 200) {
+        console.log(res.data.lineData.lines);
+        proxy.$line("line", res.data.lineData.lines);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  proxy.$radar("chart-radar");
+  proxy.$pie("chart-pie");
+  proxy.$bar("chart-bar");
 });
 </script>
 <style scoped>
@@ -63,5 +82,21 @@ onMounted(() => {
   width: 100%;
   height: 300px;
   background-color: #fff;
+}
+.charts {
+  display: flex;
+}
+.charts div {
+  flex: 1;
+  height: 300px;
+  background-color: #fff;
+  margin: 20px;
+  padding: 10px;
+}
+.charts div:nth-child(1) {
+  margin-left: 0;
+}
+.charts div:nth-child(3) {
+  margin-right: 0;
 }
 </style>
