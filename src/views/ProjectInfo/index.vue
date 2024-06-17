@@ -87,8 +87,9 @@
     <el-pagination
       @current-change="currentChangeHandle"
       background
-      layout="prev, pager, next"
-      :total="100"
+      layout="prev, pager, next,jumper"
+      :default-page-size="defaultPageSize"
+      :total="total"
     />
   </div>
 </template>
@@ -101,8 +102,24 @@ const projectInfo = reactive({
   list: [],
 });
 
+//初始获取表格数据
 onMounted(() => {
   http(1);
+});
+
+//初始化总条数
+const total = ref(0);
+//初始分页数量
+const defaultPageSize = ref(15);
+//初始获取页面信息条数
+onMounted(() => {
+  api.getTotal().then((res) => {
+    if (res.data.status === 200) {
+      total.value = res.data.result[0]["COUNT(*)"];
+    } else {
+      total.value = 0;
+    }
+  });
 });
 
 //搜索状态初始化
@@ -173,7 +190,7 @@ const addHandle = () => {
 
 //分页事件
 const currentChangeHandle = (val) => {
-  console.log(val);
+  http(val);
 };
 </script>
 <style scoped>

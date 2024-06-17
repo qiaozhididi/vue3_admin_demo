@@ -111,4 +111,16 @@ router.get("/project/search", (req, res) => {
   });
 });
 
+//获取分页总数
+router.get("/project/total", (req, res) => {
+  const sql = "SELECT COUNT(*) FROM project WHERE id";
+  SQLConnect(sql, null, (result) => {
+    if (result.length > 0) {
+      res.send({ status: 200, result });
+    } else {
+      res.send({ status: 500, msg: "查找不到相关数据" });
+    }
+  });
+});
+
 export default router;

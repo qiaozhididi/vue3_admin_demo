@@ -23,6 +23,11 @@ const api = {
   getSearch(params) {
     return axios.get(base.baseUrl + base.search, { params });
   },
+
+  //获取页数总数
+  getTotal() {
+    return axios.get(base.baseUrl + base.total);
+  },
 };
 
 export default api;
