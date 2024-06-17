@@ -19,6 +19,10 @@ const api = {
   getProjectInfo(params) {
     return axios.get(base.baseUrl + base.projectInfo, { params });
   },
+  //搜索接口
+  getSearch(params) {
+    return axios.get(base.baseUrl + base.search, { params });
+  },
 };
 
 export default api;

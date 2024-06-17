@@ -7,6 +7,7 @@ import { jwtSecret } from "./jwtSecret.js";
 import { adminData } from "./data/admin.js";
 import { vipData } from "./data/vip.js";
 import { lineData } from "./data/line.js";
+import { log } from "console";
 
 // 登录接口
 router.post("/login", (req, res) => {
@@ -82,12 +83,30 @@ router.get("/project/all", (req, res) => {
   //分页
   let page = url.parse(req.url, true).query.page || 1; //默认页码
   const sql =
-    "select * from project order by id desc limit 15 offset " + (page - 1) * 1; 
+    "select * from project order by id desc limit 15 offset " + (page - 1) * 1;
   SQLConnect(sql, null, (result) => {
     if (result.length > 0) {
       res.send({ status: 200, data: result });
     } else {
       res.send({ status: 500, data: "暂时没有数据" });
+    }
+  });
+});
+
+// 数据模糊查询
+router.get("/project/search", (req, res) => {
+  //查询内容
+  const search = url.parse(req.url, true).query.search;
+  console.log(search);
+  const sql =
+    "SELECT * FROM project WHERE CONCAT(`name`,`address`,`remark`) LIKE '%" +
+    search +
+    "%'";
+  SQLConnect(sql, null, (result) => {
+    if (result.length > 0) {
+      res.send({ status: 200, result });
+    } else {
+      res.send({ status: 500, msg: "查找不到相关数据" });
     }
   });
 });

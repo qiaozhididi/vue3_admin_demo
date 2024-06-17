@@ -8,5 +8,6 @@ const base = {
   router: "/api/router", //用户权限菜单
   line: "/api/line", //图标Line地址
   projectInfo:"/api/project/all", //项目信息查询
+  search:"/api/project/search"  //搜索
 };
 export default base;

@@ -1,4 +1,32 @@
 <template>
+  <!-- 搜索与添加 -->
+  <div class="search">
+    <span>项目状态 </span>
+    <el-input
+      class="input"
+      size="large"
+      placeholder="请输入搜索信息"
+      v-model="searchInfo"
+      @keyup.enter.native="searchHandle"
+    ></el-input>
+    <el-button
+      class="search-btn"
+      type="primary"
+      size="large"
+      @click="searchHandle"
+      plain
+      >搜索</el-button
+    >
+    <el-button
+      class="add-btn"
+      type="primary"
+      size="large"
+      @click="addHandle"
+      plain
+      >添加</el-button
+    >
+  </div>
+  <!-- 表格展示 -->
   <el-table
     :data="projectInfo.list"
     :header-cell-style="headerClass"
@@ -56,7 +84,7 @@
 </template>
 <script setup>
 import api from "@/api/index";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { dateFormat } from "@/utils/utils.js";
 
 const projectInfo = reactive({
@@ -66,6 +94,9 @@ const projectInfo = reactive({
 onMounted(() => {
   http(1);
 });
+
+//搜索状态初始化
+const searchInfo = ref("");
 
 // 网络请求数据
 const http = (page) => {
@@ -114,5 +145,35 @@ const handleEdit = (index, row) => {
 const handleDelete = (index, row) => {
   console.log(index, row);
 };
+
+//搜索按钮
+const searchHandle = () => {
+  api.getSearch({ search: searchInfo.value }).then((res) => {
+    if (res.data.status === 200) {
+      projectInfo.list = res.data.result;
+    } else {
+      projectInfo.list = [];
+    }
+  });
+};
+//添加按钮
+const addHandle = () => {
+  console.log("添加");
+};
 </script>
-<style scoped></style>
+<style scoped>
+.search {
+  margin-top: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.search span {
+  font-weight: 700;
+}
+.search .input {
+  width: 300px;
+}
+</style>
