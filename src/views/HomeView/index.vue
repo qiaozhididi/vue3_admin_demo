@@ -19,8 +19,15 @@
       <span class="box-title">地址预报：3000个</span>
     </div>
   </div>
+  <div class="line" id="line"></div>
 </template>
-<script setup></script>
+<script setup>
+import { getCurrentInstance, onMounted } from "vue";
+const { proxy } = getCurrentInstance();
+onMounted(() => {
+  proxy.$line("line");
+});
+</script>
 <style scoped>
 .card {
   display: flex;
@@ -51,5 +58,10 @@
   font-size: 14px;
   color: #666;
   line-height: 130px;
+}
+.line {
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
 }
 </style>
