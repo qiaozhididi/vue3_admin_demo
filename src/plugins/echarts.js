@@ -2,6 +2,8 @@
  * Echarts图表库配置
  */
 import * as echarts from "echarts";
+//加载地图
+import china from "@/assets/json/china.json";
 
 export default {
   // Echarts挂载到Vue全局
@@ -50,7 +52,6 @@ export default {
           indicator: [
             { name: "Sales", max: 6500 },
             { name: "Administration", max: 16000 },
-            { name: "Information Technology", max: 30000 },
             { name: "Customer Support", max: 38000 },
             { name: "Development", max: 52000 },
             { name: "Marketing", max: 25000 },
@@ -127,6 +128,59 @@ export default {
         ],
       };
       myChart.setOption(option);
+    };
+    app.config.globalProperties.$map = (element, data) => {
+      const myChart = echarts.init(document.getElementById(element));
+      echarts.registerMap("china", china); //注册地图
+      const options = {
+        //点击弹窗
+        tooltip: {
+          triggerOn: "click",
+          enterable: true, //是否弹窗
+        },
+        visualMap: {
+          origin: "vertical",
+          type: "piecewise",
+          pieces: [
+            { min: 0, max: 0, color: "#54afad" },
+            { min: 0, max: 10, color: "#f234ad" },
+            { min: 0, max: 20, color: "#f23553" },
+            { min: 0, max: 30, color: "#a21345" },
+            { min: 0, max: 100, color: "#123542" },
+          ],
+        },
+        series: [
+          {
+            name: "中国地图",
+            type: "map",
+            map: "china",
+            roam: false,
+            zoom: 1.2,
+            label: {
+              show: true,
+              fontSize: 8,
+            },
+            itemStyle: {
+              areaColor: "#fff",
+              borderColor: "#ccc",
+              borderWidth: 0.5,
+            },
+            data: [
+              { name: "北京", value: 12 },
+              { name: "天津", value: 40 },
+              { name: "上海", value: 50 },
+              { name: "重庆", value: 20 },
+              { name: "河北", value: 30 },
+              { name: "河南", value: 10 },
+              { name: "云南", value: 0 },
+              { name: "辽宁", value: 40 },
+              { name: "黑龙江", value: 10 },
+              { name: "湖南", value: 100 },
+            ],
+          },
+        ],
+      };
+      myChart.setOption(options);
     };
   },
 };
