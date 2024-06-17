@@ -17,7 +17,7 @@
     >
       <!-- template循环生成视图，不会增加页面结构 -->
       <template v-for="(item, index) in menuStore.menus" :key="index">
-        <el-sub-menu v-if="item.children">
+        <el-sub-menu v-if="item.children" :index="item.path">
           <template #title>
             <component class="icon" :is="item.icon"></component>
             <span>{{ item.name }}</span>

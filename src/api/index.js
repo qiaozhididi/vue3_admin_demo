@@ -14,6 +14,11 @@ const api = {
   getLineData() {
     return axios.get(base.baseUrl + base.line);
   },
+
+  //获取隧道项目信息
+  getProjectInfo(params) {
+    return axios.get(base.baseUrl + base.projectInfo, { params });
+  },
 };
 
 export default api;

@@ -50,11 +50,11 @@ export default {
         radar: {
           // shape: 'circle',
           indicator: [
-            { name: "Sales", max: 6500 },
-            { name: "Administration", max: 16000 },
-            { name: "Customer Support", max: 38000 },
-            { name: "Development", max: 52000 },
-            { name: "Marketing", max: 25000 },
+            { name: "Sales", max: 10 },
+            { name: "Administration", max: 10 },
+            { name: "Customer Support", max: 10 },
+            { name: "Development", max: 10 },
+            { name: "Marketing", max: 10 },
           ],
         },
         series: [

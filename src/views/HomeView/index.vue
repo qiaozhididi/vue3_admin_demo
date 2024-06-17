@@ -35,7 +35,6 @@ onMounted(() => {
     .getLineData()
     .then((res) => {
       if (res.data.status === 200) {
-        console.log(res.data.lineData.lines);
         proxy.$line("line", res.data.lineData.lines);
       }
     })

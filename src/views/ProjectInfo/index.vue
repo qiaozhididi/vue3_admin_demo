@@ -1,5 +1,118 @@
 <template>
-    <div>
-        项目信息
-    </div>
+  <el-table
+    :data="projectInfo.list"
+    :header-cell-style="headerClass"
+    style="width: 100%"
+  >
+    <el-table-column prop="name" label="项目名称" width="150" />
+    <el-table-column prop="number" label="项目编码" width="100" />
+    <el-table-column prop="money" label="项目金额" width="100" />
+    <el-table-column prop="address" label="项目地址" width="120" />
+    <el-table-column prop="duration" label="项目工期(月)" width="100" />
+    <el-table-column
+      prop="startTime"
+      label="开工时间"
+      :formatter="(value) => dateFormat(Number(value.startTime))"
+      width="120"
+    />
+    <el-table-column
+      prop="endTime"
+      label="结束时间"
+      :formatter="(value) => dateFormat(Number(value.endTime))"
+      width="120"
+    />
+    <el-table-column prop="quantity" label="隧道数量" width="80" />
+    <el-table-column prop="status" label="项目状态" width="80">
+      <template #default="scope">
+        <el-tag :type="scope.row.status === '1' ? 'success' : 'danger'">
+          <!-- {{ scope.row.status === "1" ? "已完成" : "施工中" }} -->
+          {{ statusHandle(scope.row.status) }}
+        </el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column show-overflow-tooltip prop="remark" label="备注">
+      <template #default="scope">
+        <div v-html="scope.row.remark"></div>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作" width="140">
+      <template #default="scope">
+        <el-button
+          type="primary"
+          size="small"
+          @click="handleEdit(scope.$index, scope.row)"
+          >编辑</el-button
+        >
+        <el-button
+          type="danger"
+          size="small"
+          @click="handleDelete(scope.$index, scope.row)"
+        >
+          删除
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
+<script setup>
+import api from "@/api/index";
+import { onMounted, reactive } from "vue";
+import { dateFormat } from "@/utils/utils.js";
+
+const projectInfo = reactive({
+  list: [],
+});
+
+onMounted(() => {
+  http(1);
+});
+
+// 网络请求数据
+const http = (page) => {
+  api
+    .getProjectInfo({ page })
+    .then((res) => {
+      if (res.data.status === 200) {
+        projectInfo.list = res.data.data;
+      }
+    })
+    .then((error) => {
+      console.log(error);
+    });
+};
+
+// 表格头部样式
+const headerClass = () => {
+  return {
+    background: "#404a5c",
+    color: "#fff",
+    fontSize: "14px",
+    fontWeight: "bolder",
+    textAlign: "center",
+    padding: "10px 0",
+  };
+};
+
+// 项目状态
+const statusHandle = (status) => {
+  switch (status) {
+    case "0":
+      return "施工中";
+    case "1":
+      return "已完成";
+    default:
+      return "未知";
+  }
+};
+
+//表格编辑按钮
+const handleEdit = (index, row) => {
+  console.log(index, row);
+};
+
+//表格删除按钮
+const handleDelete = (index, row) => {
+  console.log(index, row);
+};
+</script>
+<style scoped></style>

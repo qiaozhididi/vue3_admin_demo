@@ -1,7 +1,9 @@
 <template>
   <div class="layout-container">
-    <drawer-setting @onToggleEvent="getToggleEvent"></drawer-setting>
-    <slider-navs :myToggle="myToggle"></slider-navs>
+    <!-- @onToggleEvent="getToggleEvent" -->
+    <drawer-setting></drawer-setting>
+    <!-- :myToggle="myToggle" -->
+    <slider-navs></slider-navs>
     <div
       class="right-container"
       :style="{ marginLeft: menuStore.isCollapse ? '64px' : '210px' }"
@@ -47,7 +49,7 @@ onMounted(() => {
       console.log(err);
     });
 });
-//使用组件传值的方式 设置控制Logo隐藏 
+//使用组件传值的方式 设置控制Logo隐藏
 // const myToggle = ref(false);
 // const getToggleEvent = (val) => {
 //     myToggle.value = val;
