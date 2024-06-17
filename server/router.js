@@ -77,4 +77,19 @@ router.get("/line", (req, res) => {
   });
 });
 
+//信息查询接口
+router.get("/project/all", (req, res) => {
+  //分页
+  let page = url.parse(req.url, true).query.page || 1; //默认页码
+  const sql =
+    "select * from project order by id desc limit 15 offset " + (page - 1) * 1; 
+  SQLConnect(sql, null, (result) => {
+    if (result.length > 0) {
+      res.send({ status: 200, data: result });
+    } else {
+      res.send({ status: 500, data: "暂时没有数据" });
+    }
+  });
+});
+
 export default router;
