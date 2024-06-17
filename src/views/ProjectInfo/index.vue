@@ -31,6 +31,7 @@
     :data="projectInfo.list"
     :header-cell-style="headerClass"
     style="width: 100%"
+    class="table-box"
   >
     <el-table-column prop="name" label="项目名称" width="150" />
     <el-table-column prop="number" label="项目编码" width="100" />
@@ -81,6 +82,15 @@
       </template>
     </el-table-column>
   </el-table>
+  <!-- 分页 -->
+  <div class="page">
+    <el-pagination
+      @current-change="currentChangeHandle"
+      background
+      layout="prev, pager, next"
+      :total="100"
+    />
+  </div>
 </template>
 <script setup>
 import api from "@/api/index";
@@ -107,7 +117,7 @@ const http = (page) => {
         projectInfo.list = res.data.data;
       }
     })
-    .then((error) => {
+    .catch((error) => {
       console.log(error);
     });
 };
@@ -160,6 +170,11 @@ const searchHandle = () => {
 const addHandle = () => {
   console.log("添加");
 };
+
+//分页事件
+const currentChangeHandle = (val) => {
+  console.log(val);
+};
 </script>
 <style scoped>
 .search {
@@ -175,5 +190,15 @@ const addHandle = () => {
 }
 .search .input {
   width: 300px;
+}
+.table-box {
+  height: 70vh;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.page {
+  position: fixed;
+  right: 10px;
+  bottom: 30px;
 }
 </style>
