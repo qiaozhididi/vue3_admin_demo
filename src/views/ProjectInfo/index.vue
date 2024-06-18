@@ -92,6 +92,51 @@
       :total="total"
     />
   </div>
+  <!-- 添加对话框 -->
+  <el-dialog center v-model="dialogFormAddVisible" title="添加项目信息" width="40%">
+    <el-form :inline="true" :model="projectInfoFrom">
+      <el-form-item label="项目名称">
+        <el-input v-model="projectInfoFrom.name" />
+      </el-form-item>
+      <el-form-item label="项目编码">
+        <el-input v-model="projectInfoFrom.number" />
+      </el-form-item>
+      <el-form-item label="项目金额">
+        <el-input v-model="projectInfoFrom.money" />
+      </el-form-item>
+      <el-form-item label="项目地址">
+        <el-input v-model="projectInfoFrom.address" />
+      </el-form-item>
+      <el-form-item label="项目工期">
+        <el-input v-model="projectInfoFrom.duration" />
+      </el-form-item>
+      <el-form-item label="开工时间" >
+        <el-date-picker v-model="projectInfoFrom.startTime" value-format="x" type="date" placeholder="请选择开工日期"></el-date-picker>
+        <!-- <el-input type="date" v-model="projectInfoFrom.startTime" /> -->
+      </el-form-item>
+      <el-form-item label="完工时间">
+        <el-date-picker v-model="projectInfoFrom.endTime" value-format="x" type="date" placeholder="请选择完工日期"></el-date-picker>
+        <!-- <el-input v-model="projectInfoFrom.endTime" /> -->
+      </el-form-item>
+      <el-form-item label="隧道数量">
+        <el-input v-model="projectInfoFrom.quantity" />
+      </el-form-item>
+      <el-form-item label="项目状态">
+        <el-input v-model="projectInfoFrom.status" placeholder="'1' 施工中 - '0' 已完成" />
+      </el-form-item>
+      <el-form-item label="项目备注">
+        <el-input v-model="projectInfoFrom.remark" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormAddVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogFormAddVisible = false">
+          确定
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 <script setup>
 import api from "@/api/index";
@@ -111,6 +156,10 @@ onMounted(() => {
 const total = ref(0);
 //初始分页数量
 const defaultPageSize = ref(15);
+
+//添加对话框控制器
+const dialogFormAddVisible = ref(false);
+
 //初始获取页面信息条数
 onMounted(() => {
   api.getTotal().then((res) => {
@@ -183,10 +232,26 @@ const searchHandle = () => {
     }
   });
 };
-//添加按钮
+//添加按钮对话框弹出
 const addHandle = () => {
-  console.log("添加");
+  dialogFormAddVisible.value = true;
 };
+//初始化添加对话框状态
+const projectInfoFrom = reactive({
+  name: "",
+  number: "",
+  money: "",
+  address: "",
+  duration: "",
+  startTime: "",
+  endTime: "",
+  quantity: "",
+  status: "",
+  remark: "",
+});
+
+//添加对话框确定事件
+// const dialogFormAddVisible = ref(false);
 
 //分页事件
 const currentChangeHandle = (val) => {
@@ -207,6 +272,7 @@ const currentChangeHandle = (val) => {
 }
 .search .input {
   width: 300px;
+  margin-right: 10px;
 }
 .table-box {
   height: 70vh;

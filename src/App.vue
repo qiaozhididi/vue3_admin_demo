@@ -15,4 +15,17 @@ import { RouterLink, RouterView } from "vue-router";
 body,html,#app{
   height: 100%;
 }
+/* 修改弹窗对话框header样式 */
+.el-dialog__header {
+  width: 100%;
+  height: 100%;
+  background-color: #304156;
+  padding: 15px 32px 15px 0 !important;
+  margin: -16px 0 16px -16px;
+}
+.el-dialog__header span{
+  color: #fff;
+}
+
+
 </style>
