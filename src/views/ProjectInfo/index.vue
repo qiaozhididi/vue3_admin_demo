@@ -160,6 +160,7 @@
     v-model="dialogFormEditVisible"
     title="编辑项目信息"
     width="40%"
+    destroy-on-close
   >
     <el-form :inline="true" :model="projectInfoFrom">
       <el-form-item label="项目名称">
@@ -181,6 +182,7 @@
         <el-date-picker
           v-model="projectInfoFrom.startTime"
           type="date"
+          value-format="x"
           placeholder="请选择开工日期"
         ></el-date-picker>
         <!-- <el-input type="date" v-model="projectInfoFrom.startTime" /> -->
@@ -189,6 +191,7 @@
         <el-date-picker
           v-model="projectInfoFrom.endTime"
           type="date"
+          value-format="x"
           placeholder="请选择完工日期"
         ></el-date-picker>
         <!-- <el-input v-model="projectInfoFrom.endTime" /> -->
@@ -203,7 +206,11 @@
         />
       </el-form-item>
       <el-form-item label="项目备注" width="80%">
-        <TinymceEditor :options="options" @onDataEvent="getInfoEditorEvent" />
+        <TinymceEditor
+          :editorID="editorID"
+          :options="options"
+          @onDataEvent="getInfoEditorEvent"
+        />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -239,6 +246,9 @@ const defaultPageSize = ref(15);
 const dialogFormAddVisible = ref(false);
 //编辑对话框控制器
 const dialogFormEditVisible = ref(false);
+
+//定义富文本编辑修改数据的唯一id
+const editorID = ref(0);
 
 //初始获取页面信息条数
 onMounted(() => {
@@ -369,7 +379,6 @@ const sureHandle = () => {
       remark: projectInfoFrom.remark,
     })
     .then((res) => {
-      console.log(res);
       if (res.data.status === 200) {
         dialogFormAddVisible.value = false;
         //刷新页面 重新请求数据
@@ -383,11 +392,15 @@ const sureHandle = () => {
 
 //表格编辑按钮
 const handleEdit = (index, row) => {
+  editorID.value = row.id;
   api
     .getPreProjectUpdate({ id: row.id })
     .then((res) => {
       if (res.data.status === 200) {
         projectInfoFrom = res.data.result;
+        //修改日期格式
+        projectInfoFrom.startTime = Number(res.data.result.startTime);
+        projectInfoFrom.endTime = Number(res.data.result.endTime);
         dialogFormEditVisible.value = true;
       } else {
         ElMessage.error(res.data.msg);
