@@ -3,9 +3,7 @@ import base from "./base.js";
 
 const api = {
   //登录
-  getLogin(params) {
-    return axios.post(base.baseUrl + base.login, params);
-  },
+  getLogin(params) {},
   //用户权限菜单
   getRouter(params) {
     return axios.get(base.baseUrl + base.router, { params });
@@ -42,6 +40,11 @@ const api = {
   //项目预更新
   getPreProjectUpdate(params) {
     return axios.get(base.baseUrl + base.preProjectUpdate, { params });
+  },
+
+  //项目信息修改
+  getProjectUpdate(id, params) {
+    return axios.put(base.baseUrl + base.updateProject + id, params);
   },
 };
 

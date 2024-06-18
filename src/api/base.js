@@ -12,6 +12,8 @@ const base = {
   total: "/api/project/total", //页数
   addProject: "/api/project/add", //页数
   delProject: "/api/project/del", //删除项目信息
-  preProjectUpdate:"/api/project/update/pre" //预更新项目信息
+  preProjectUpdate: "/api/project/update/pre", //预更新项目信息
+  updateProject: "/api/project/update/", //更新项目信息
 };
+
 export default base;

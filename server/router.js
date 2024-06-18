@@ -202,4 +202,49 @@ router.get("/project/update/pre", (req, res) => {
   });
 });
 
+//修改项目信息接口
+router.put("/project/update/:id", (req, res) => {
+  //优化上述使用的插入写法  使用restFull API
+  const id = req.params.id;
+  const {
+    name,
+    number,
+    money,
+    address,
+    duration,
+    startTime,
+    endTime,
+    quantity,
+    status,
+    remark,
+  } = req.body;
+  const sql = `update project set name=?,number=?,money=?,address=?,duration=?,startTime=?,endTime=?,quantity=?,status=?,remark=? where id=?`;
+  const arr = [
+    name,
+    number,
+    money,
+    address,
+    duration,
+    startTime,
+    endTime,
+    quantity,
+    status,
+    remark,
+    id,
+  ];
+  SQLConnect(sql, arr, (result) => {
+    if (result.affectedRows > 0) {
+      res.send({
+        status: 200,
+        msg: "修改成功",
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "修改失败",
+      });
+    }
+  });
+});
+
 export default router;

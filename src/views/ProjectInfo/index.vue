@@ -162,46 +162,46 @@
     width="40%"
     destroy-on-close
   >
-    <el-form :inline="true" :model="projectInfoFrom">
+    <el-form :inline="true" :model="projectEditFrom">
       <el-form-item label="项目名称">
-        <el-input v-model="projectInfoFrom.name" />
+        <el-input v-model="projectEditFrom.name" />
       </el-form-item>
       <el-form-item label="项目编码">
-        <el-input v-model="projectInfoFrom.number" />
+        <el-input v-model="projectEditFrom.number" />
       </el-form-item>
       <el-form-item label="项目金额">
-        <el-input v-model="projectInfoFrom.money" />
+        <el-input v-model="projectEditFrom.money" />
       </el-form-item>
       <el-form-item label="项目地址">
-        <el-input v-model="projectInfoFrom.address" />
+        <el-input v-model="projectEditFrom.address" />
       </el-form-item>
       <el-form-item label="项目工期">
-        <el-input v-model="projectInfoFrom.duration" />
+        <el-input v-model="projectEditFrom.duration" />
       </el-form-item>
       <el-form-item label="开工时间">
         <el-date-picker
-          v-model="projectInfoFrom.startTime"
+          v-model="projectEditFrom.startTime"
           type="date"
           value-format="x"
           placeholder="请选择开工日期"
         ></el-date-picker>
-        <!-- <el-input type="date" v-model="projectInfoFrom.startTime" /> -->
+        <!-- <el-input type="date" v-model="projectEditFrom.startTime" /> -->
       </el-form-item>
       <el-form-item label="完工时间">
         <el-date-picker
-          v-model="projectInfoFrom.endTime"
+          v-model="projectEditFrom.endTime"
           type="date"
           value-format="x"
           placeholder="请选择完工日期"
         ></el-date-picker>
-        <!-- <el-input v-model="projectInfoFrom.endTime" /> -->
+        <!-- <el-input v-model="projectEditFrom.endTime" /> -->
       </el-form-item>
       <el-form-item label="隧道数量">
-        <el-input v-model="projectInfoFrom.quantity" />
+        <el-input v-model="projectEditFrom.quantity" />
       </el-form-item>
       <el-form-item label="项目状态">
         <el-input
-          v-model="projectInfoFrom.status"
+          v-model="projectEditFrom.status"
           placeholder="'1' 施工中 - '0' 已完成"
         />
       </el-form-item>
@@ -209,7 +209,7 @@
         <TinymceEditor
           :editorID="editorID"
           :options="options"
-          @onDataEvent="getInfoEditorEvent"
+          @onDataEvent="updateEditorHandle"
         />
       </el-form-item>
     </el-form>
@@ -345,7 +345,7 @@ const searchHandle = () => {
 };
 
 //初始化添加对话框状态
-let projectInfoFrom = reactive({
+const projectInfoFrom = reactive({
   name: "",
   number: "",
   money: "",
@@ -359,7 +359,6 @@ let projectInfoFrom = reactive({
 });
 //添加按钮对话框弹出
 const addHandle = () => {
-  projectInfoFrom = {};
   dialogFormAddVisible.value = true;
 };
 
@@ -390,6 +389,20 @@ const sureHandle = () => {
     });
 };
 
+//初始化编辑对话框状态
+const projectEditFrom = reactive({
+  name: "",
+  number: "",
+  money: "",
+  address: "",
+  duration: "",
+  startTime: "",
+  endTime: "",
+  quantity: "",
+  status: "",
+  remark: "",
+});
+
 //表格编辑按钮
 const handleEdit = (index, row) => {
   editorID.value = row.id;
@@ -397,11 +410,17 @@ const handleEdit = (index, row) => {
     .getPreProjectUpdate({ id: row.id })
     .then((res) => {
       if (res.data.status === 200) {
-        projectInfoFrom = res.data.result;
-        //修改日期格式
-        projectInfoFrom.startTime = Number(res.data.result.startTime);
-        projectInfoFrom.endTime = Number(res.data.result.endTime);
-        dialogFormEditVisible.value = true;
+        (projectEditFrom.name = res.data.result.name),
+          (projectEditFrom.number = res.data.result.number),
+          (projectEditFrom.money = res.data.result.money),
+          (projectEditFrom.address = res.data.result.address),
+          (projectEditFrom.duration = res.data.result.duration),
+          (projectEditFrom.startTime = Number(res.data.result.startTime));
+        projectEditFrom.endTime = Number(res.data.result.endTime);
+        (projectEditFrom.quantity = res.data.result.quantity),
+          (projectEditFrom.status = res.data.result.status),
+          (projectEditFrom.remark = res.data.result.remark),
+          (dialogFormEditVisible.value = true);
       } else {
         ElMessage.error(res.data.msg);
       }
@@ -410,14 +429,37 @@ const handleEdit = (index, row) => {
       console.error(err);
     });
 };
+
+//修改富文本编辑器数据
+const updateEditorHandle = (data)=>{
+  projectEditFrom.remark = data
+}
+
 //确认编辑修改事件
-const sureEditHandle = () => {};
-
-//分页事件
-const currentChangeHandle = (val) => {
-  http(val);
+const sureEditHandle = () => {
+  api
+    .getProjectUpdate(editorID.value, {
+      name: projectEditFrom.name,
+      number: projectEditFrom.number,
+      money: projectEditFrom.money,
+      address: projectEditFrom.address,
+      duration: projectEditFrom.duration,
+      startTime: projectEditFrom.startTime,
+      endTime: projectEditFrom.endTime,
+      quantity: projectEditFrom.quantity,
+      status: projectEditFrom.status,
+      remark: projectEditFrom.remark,
+    })
+    .then((res) => {
+      if (res.data.status === 200) {
+        dialogFormEditVisible.value = false;
+        http(1);
+        ElMessage.success(res.data.msg);
+      } else {
+        ElMessage.error(res.data.msg);
+      }
+    });
 };
-
 //添加富文本编辑器
 const getInfoEditorEvent = (data) => {
   projectInfoFrom.remark = data;
@@ -427,6 +469,11 @@ const getInfoEditorEvent = (data) => {
 const options = {
   width: "100%",
   height: "300px",
+};
+
+//分页事件
+const currentChangeHandle = (val) => {
+  http(val);
 };
 </script>
 <style scoped>
