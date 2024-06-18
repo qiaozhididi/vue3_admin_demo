@@ -10,5 +10,6 @@ const base = {
   projectInfo: "/api/project/all", //项目信息查询
   search: "/api/project/search", //搜索
   total: "/api/project/total", //页数
+  addProject: "/api/project/add", //页数
 };
 export default base;

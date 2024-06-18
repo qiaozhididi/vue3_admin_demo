@@ -93,7 +93,12 @@
     />
   </div>
   <!-- 添加对话框 -->
-  <el-dialog center v-model="dialogFormAddVisible" title="添加项目信息" width="40%">
+  <el-dialog
+    center
+    v-model="dialogFormAddVisible"
+    title="添加项目信息"
+    width="40%"
+  >
     <el-form :inline="true" :model="projectInfoFrom">
       <el-form-item label="项目名称">
         <el-input v-model="projectInfoFrom.name" />
@@ -110,19 +115,32 @@
       <el-form-item label="项目工期">
         <el-input v-model="projectInfoFrom.duration" />
       </el-form-item>
-      <el-form-item label="开工时间" >
-        <el-date-picker v-model="projectInfoFrom.startTime" value-format="x" type="date" placeholder="请选择开工日期"></el-date-picker>
+      <el-form-item label="开工时间">
+        <el-date-picker
+          v-model="projectInfoFrom.startTime"
+          value-format="x"
+          type="date"
+          placeholder="请选择开工日期"
+        ></el-date-picker>
         <!-- <el-input type="date" v-model="projectInfoFrom.startTime" /> -->
       </el-form-item>
       <el-form-item label="完工时间">
-        <el-date-picker v-model="projectInfoFrom.endTime" value-format="x" type="date" placeholder="请选择完工日期"></el-date-picker>
+        <el-date-picker
+          v-model="projectInfoFrom.endTime"
+          value-format="x"
+          type="date"
+          placeholder="请选择完工日期"
+        ></el-date-picker>
         <!-- <el-input v-model="projectInfoFrom.endTime" /> -->
       </el-form-item>
       <el-form-item label="隧道数量">
         <el-input v-model="projectInfoFrom.quantity" />
       </el-form-item>
       <el-form-item label="项目状态">
-        <el-input v-model="projectInfoFrom.status" placeholder="'1' 施工中 - '0' 已完成" />
+        <el-input
+          v-model="projectInfoFrom.status"
+          placeholder="'1' 施工中 - '0' 已完成"
+        />
       </el-form-item>
       <el-form-item label="项目备注">
         <el-input v-model="projectInfoFrom.remark" />
@@ -131,9 +149,7 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="dialogFormAddVisible = false">取消</el-button>
-        <el-button type="primary" @click="dialogFormAddVisible = false">
-          确定
-        </el-button>
+        <el-button type="primary" @click="sureHandle"> 确定 </el-button>
       </div>
     </template>
   </el-dialog>
@@ -142,6 +158,7 @@
 import api from "@/api/index";
 import { onMounted, reactive, ref } from "vue";
 import { dateFormat } from "@/utils/utils.js";
+import { ElMessage } from "element-plus";
 
 const projectInfo = reactive({
   list: [],
@@ -251,7 +268,32 @@ const projectInfoFrom = reactive({
 });
 
 //添加对话框确定事件
-// const dialogFormAddVisible = ref(false);
+const sureHandle = () => {
+  api
+    .getAddProject({
+      name: projectInfoFrom.name,
+      number: projectInfoFrom.number,
+      money: projectInfoFrom.money,
+      address: projectInfoFrom.address,
+      duration: projectInfoFrom.duration,
+      startTime: projectInfoFrom.startTime,
+      endTime: projectInfoFrom.endTime,
+      quantity: projectInfoFrom.quantity,
+      status: projectInfoFrom.status,
+      remark: projectInfoFrom.remark,
+    })
+    .then((res) => {
+      console.log(res);
+      if (res.data.status === 200) {
+        dialogFormAddVisible.value = false;
+        //刷新页面 重新请求数据
+        http(1);
+        ElMessage.success("添加成功");
+      } else {
+        ElMessage.error("添加失败");
+      }
+    });
+};
 
 //分页事件
 const currentChangeHandle = (val) => {
