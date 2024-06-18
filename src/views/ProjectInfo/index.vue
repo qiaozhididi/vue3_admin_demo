@@ -431,9 +431,9 @@ const handleEdit = (index, row) => {
 };
 
 //修改富文本编辑器数据
-const updateEditorHandle = (data)=>{
-  projectEditFrom.remark = data
-}
+const updateEditorHandle = (data) => {
+  projectEditFrom.remark = data;
+};
 
 //确认编辑修改事件
 const sureEditHandle = () => {
@@ -478,7 +478,6 @@ const currentChangeHandle = (val) => {
 </script>
 <style scoped>
 .search {
-  margin-top: 10px;
   box-sizing: border-box;
   padding: 10px;
   width: 100%;

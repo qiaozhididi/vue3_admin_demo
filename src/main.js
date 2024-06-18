@@ -12,6 +12,9 @@ import echarts from "./plugins/echarts.js";
 //pinia持久化
 import piniaPersist from "pinia-plugin-persist";
 
+// i18n国际化
+import Vuei18n from "./locales/i18n.js";
+
 import App from "./App.vue";
 import router from "./router";
 
@@ -23,5 +26,6 @@ app.use(pinia);
 app.use(router);
 app.use(elementIcon);
 app.use(echarts);
+app.use(Vuei18n);
 
 app.mount("#app");

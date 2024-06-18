@@ -18,9 +18,24 @@ el-dropdown
       </div>
       <div class="toggle-menu-breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item>当前</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ $t("message.navs") }}</el-breadcrumb-item>
           <el-breadcrumb-item>{{ menuStore.breadcrumb }}</el-breadcrumb-item>
         </el-breadcrumb>
+      </div>
+      <div class="lang">
+        <el-dropdown>
+          <span class="el-dropdown-link"> 语言切换 </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="changeLang('zh')"
+                >中文</el-dropdown-item
+              >
+              <el-dropdown-item @click="changeLang('en')"
+                >English</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
       <div class="user">
         <el-dropdown trigger="click">
@@ -67,6 +82,13 @@ const closeMenu = (flag) => {
 const openMenu = (flag) => {
   menuStore.isCollapse = flag;
 };
+
+//切换语言
+const changeLang = (lang) => {
+  localStorage.setItem("lang", lang);
+  //切换刷新
+  location.reload();
+};
 </script>
 <style scoped>
 .nav {
@@ -92,11 +114,18 @@ const openMenu = (flag) => {
   margin-top: 6px;
   margin-left: 20px;
 }
+.lang {
+  position: absolute;
+  right: 120px;
+  top: 20px;
+}
 .user {
-  /* float: right; */
   font-size: 15px;
   position: absolute;
   right: 20px;
   top: 20px;
+}
+.el-dropdown-link {
+  outline: unset !important;
 }
 </style>
