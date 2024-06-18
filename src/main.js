@@ -1,4 +1,9 @@
 import "./assets/init.css";
+// ElementPlus国际化
+import ElementPlus from "element-plus";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+import enUs from "element-plus/es/locale/lang/en";
+
 //引入element-plus 的css
 import "element-plus/dist/index.css";
 import elementIcon from "./plugins/icons.js";
@@ -27,5 +32,8 @@ app.use(router);
 app.use(elementIcon);
 app.use(echarts);
 app.use(Vuei18n);
+app.use(ElementPlus, {
+  locale: localStorage.getItem("lang") === "zh" ? zhCn : enUs,
+});
 
 app.mount("#app");
