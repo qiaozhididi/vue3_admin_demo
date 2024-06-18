@@ -33,6 +33,11 @@ const api = {
   getAddProject(params) {
     return axios.get(base.baseUrl + base.addProject, { params });
   },
+
+  //删除项目信息
+  getDeleteProject(params) {
+    return axios.get(base.baseUrl + base.delProject, { params });
+  },
 };
 
 export default api;

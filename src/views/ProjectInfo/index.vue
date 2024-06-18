@@ -238,7 +238,33 @@ const handleEdit = (index, row) => {
 
 //表格删除按钮
 const handleDelete = (index, row) => {
-  console.log(index, row);
+  ElMessageBox.confirm("确定删除当前数据？", "删除数据", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      api.getDeleteProject({id:row.id}).then((res) => {
+        if (res.data.status === 200) {
+          ElMessage({
+            type: "success",
+            message: res.data.msg,
+          }),
+            http(1);
+        } else {
+          ElMessage({
+            type: "error",
+            message: res.data.msg,
+          });
+        }
+      });
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "取消删除",
+      });
+    });
 };
 
 //搜索按钮
@@ -290,9 +316,9 @@ const sureHandle = () => {
         dialogFormAddVisible.value = false;
         //刷新页面 重新请求数据
         http(1);
-        ElMessage.success("添加成功");
+        ElMessage.success(res.data.msg);
       } else {
-        ElMessage.error("添加失败");
+        ElMessage.error(res.data.msg);
       }
     });
 };

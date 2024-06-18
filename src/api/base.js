@@ -11,5 +11,6 @@ const base = {
   search: "/api/project/search", //搜索
   total: "/api/project/total", //页数
   addProject: "/api/project/add", //页数
+  delProject: "/api/project/del", //删除项目信息
 };
 export default base;

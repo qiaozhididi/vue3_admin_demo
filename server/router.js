@@ -163,4 +163,23 @@ router.get("/project/add", (req, res) => {
   });
 });
 
+//删除项目信息
+router.get("/project/del", (req, res) => {
+  let id = url.parse(req.url, true).query.id;
+  let sql = "delete from project where id=?";
+  SQLConnect(sql, [id], (result) => {
+    if (result.affectedRows > 0) {
+      res.send({
+        status: 200,
+        msg: "删除成功",
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "删除失败",
+      });
+    }
+  });
+});
+
 export default router;
