@@ -182,4 +182,24 @@ router.get("/project/del", (req, res) => {
   });
 });
 
+//项目信息预更新接口
+router.get("/project/update/pre", (req, res) => {
+  const id = url.parse(req.url, true).query.id;
+  const sql = "select * from project where id = ?";
+  SQLConnect(sql, [id], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "查询成功",
+        result: result[0],
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "查询失败",
+      });
+    }
+  });
+});
+
 export default router;

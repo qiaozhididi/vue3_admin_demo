@@ -38,6 +38,11 @@ const api = {
   getDeleteProject(params) {
     return axios.get(base.baseUrl + base.delProject, { params });
   },
+
+  //项目预更新
+  getPreProjectUpdate(params) {
+    return axios.get(base.baseUrl + base.preProjectUpdate, { params });
+  },
 };
 
 export default api;

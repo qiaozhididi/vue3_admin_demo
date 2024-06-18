@@ -154,6 +154,65 @@
       </div>
     </template>
   </el-dialog>
+  <!-- 编辑对话框 -->
+  <el-dialog
+    center
+    v-model="dialogFormEditVisible"
+    title="编辑项目信息"
+    width="40%"
+  >
+    <el-form :inline="true" :model="projectInfoFrom">
+      <el-form-item label="项目名称">
+        <el-input v-model="projectInfoFrom.name" />
+      </el-form-item>
+      <el-form-item label="项目编码">
+        <el-input v-model="projectInfoFrom.number" />
+      </el-form-item>
+      <el-form-item label="项目金额">
+        <el-input v-model="projectInfoFrom.money" />
+      </el-form-item>
+      <el-form-item label="项目地址">
+        <el-input v-model="projectInfoFrom.address" />
+      </el-form-item>
+      <el-form-item label="项目工期">
+        <el-input v-model="projectInfoFrom.duration" />
+      </el-form-item>
+      <el-form-item label="开工时间">
+        <el-date-picker
+          v-model="projectInfoFrom.startTime"
+          type="date"
+          placeholder="请选择开工日期"
+        ></el-date-picker>
+        <!-- <el-input type="date" v-model="projectInfoFrom.startTime" /> -->
+      </el-form-item>
+      <el-form-item label="完工时间">
+        <el-date-picker
+          v-model="projectInfoFrom.endTime"
+          type="date"
+          placeholder="请选择完工日期"
+        ></el-date-picker>
+        <!-- <el-input v-model="projectInfoFrom.endTime" /> -->
+      </el-form-item>
+      <el-form-item label="隧道数量">
+        <el-input v-model="projectInfoFrom.quantity" />
+      </el-form-item>
+      <el-form-item label="项目状态">
+        <el-input
+          v-model="projectInfoFrom.status"
+          placeholder="'1' 施工中 - '0' 已完成"
+        />
+      </el-form-item>
+      <el-form-item label="项目备注" width="80%">
+        <TinymceEditor :options="options" @onDataEvent="getInfoEditorEvent" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormEditVisible = false">取消</el-button>
+        <el-button type="primary" @click="sureEditHandle"> 确定 </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 <script setup>
 import api from "@/api/index";
@@ -178,6 +237,8 @@ const defaultPageSize = ref(15);
 
 //添加对话框控制器
 const dialogFormAddVisible = ref(false);
+//编辑对话框控制器
+const dialogFormEditVisible = ref(false);
 
 //初始获取页面信息条数
 onMounted(() => {
@@ -231,11 +292,6 @@ const statusHandle = (status) => {
   }
 };
 
-//表格编辑按钮
-const handleEdit = (index, row) => {
-  console.log(index, row);
-};
-
 //表格删除按钮
 const handleDelete = (index, row) => {
   ElMessageBox.confirm("确定删除当前数据？", "删除数据", {
@@ -244,7 +300,7 @@ const handleDelete = (index, row) => {
     type: "warning",
   })
     .then(() => {
-      api.getDeleteProject({id:row.id}).then((res) => {
+      api.getDeleteProject({ id: row.id }).then((res) => {
         if (res.data.status === 200) {
           ElMessage({
             type: "success",
@@ -277,12 +333,9 @@ const searchHandle = () => {
     }
   });
 };
-//添加按钮对话框弹出
-const addHandle = () => {
-  dialogFormAddVisible.value = true;
-};
+
 //初始化添加对话框状态
-const projectInfoFrom = reactive({
+let projectInfoFrom = reactive({
   name: "",
   number: "",
   money: "",
@@ -294,6 +347,11 @@ const projectInfoFrom = reactive({
   status: "",
   remark: "",
 });
+//添加按钮对话框弹出
+const addHandle = () => {
+  projectInfoFrom = {};
+  dialogFormAddVisible.value = true;
+};
 
 //添加对话框确定事件
 const sureHandle = () => {
@@ -322,6 +380,25 @@ const sureHandle = () => {
       }
     });
 };
+
+//表格编辑按钮
+const handleEdit = (index, row) => {
+  api
+    .getPreProjectUpdate({ id: row.id })
+    .then((res) => {
+      if (res.data.status === 200) {
+        projectInfoFrom = res.data.result;
+        dialogFormEditVisible.value = true;
+      } else {
+        ElMessage.error(res.data.msg);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+//确认编辑修改事件
+const sureEditHandle = () => {};
 
 //分页事件
 const currentChangeHandle = (val) => {
