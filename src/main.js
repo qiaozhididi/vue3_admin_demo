@@ -20,6 +20,9 @@ import piniaPersist from "pinia-plugin-persist";
 // i18n国际化
 import Vuei18n from "./locales/i18n.js";
 
+//引入vue3-pdfjs
+import VuePdf from "vue3-pdfjs";
+
 import App from "./App.vue";
 import router from "./router";
 
@@ -35,5 +38,6 @@ app.use(Vuei18n);
 app.use(ElementPlus, {
   locale: localStorage.getItem("lang") === "zh" ? zhCn : enUs,
 });
+app.use(VuePdf);
 
 app.mount("#app");

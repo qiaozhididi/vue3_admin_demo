@@ -101,6 +101,11 @@ const router = createRouter({
       name: "login",
       component: LoginInfo,
     },
+    {
+      path: "/pdf/:id",
+      name: "pdf",
+      component: () => import("../views/TunnelInfo/PDFViewer/index.vue"),
+    },
 
     //404页面路径匹配规则 没找到对应路径地址
     {

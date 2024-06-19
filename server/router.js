@@ -359,4 +359,24 @@ router.get("/tunnel/content/urlpath", (req, res) => {
   });
 });
 
+//PDF预览接口
+router.get("/tunnel/pdf", (req, res) => {
+  const id = url.parse(req.url, true).query.id;
+  const sql = "select * from tunnelcontent where id = ?";
+  SQLConnect(sql, [id], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "获取成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "获取失败",
+      });
+    }
+  });
+});
+
 export default router;

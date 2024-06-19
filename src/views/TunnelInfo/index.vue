@@ -77,6 +77,9 @@
 <script setup>
 import { reactive, onMounted, ref, watch } from "vue";
 import api from "@/api/index";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 //文件上传
 const dialogUploadVisible = ref(false);
@@ -131,8 +134,7 @@ onMounted(() => {
 
 //表格操作 预览
 const preViewHandle = (index, row) => {
-  currentID.value = row.id;
-  console.log(index, row);
+  router.push("/pdf/" + row.id);
 };
 
 //表格操作 上传

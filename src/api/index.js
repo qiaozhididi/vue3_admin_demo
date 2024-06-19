@@ -3,7 +3,9 @@ import base from "./base.js";
 
 const api = {
   //登录
-  getLogin(params) {},
+  getLogin(params) {
+    return axios.post(base.baseUrl + base.login, params);
+  },
   //用户权限菜单
   getRouter(params) {
     return axios.get(base.baseUrl + base.router, { params });
@@ -65,6 +67,11 @@ const api = {
   //隧道信息文件上传地址
   getTunnelUploadFilePath(params) {
     return axios.get(base.baseUrl + base.uploadFilePath, { params });
+  },
+
+  //pdf预览地址
+  getPDFView(params) {
+    return axios.get(base.baseUrl + base.getPDFView, { params });
   },
 };
 
