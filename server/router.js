@@ -247,4 +247,43 @@ router.put("/project/update/:id", (req, res) => {
   });
 });
 
+//隧道设计信息树形列表接口
+router.get("/tunnel/list", (req, res) => {
+  const sql = "select * from tunnel";
+  SQLConnect(sql, null, (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "查询成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "查询失败",
+      });
+    }
+  });
+});
+
+//隧道设计信息树形二级列表接口
+router.get("/tunnel/list/child", (req, res) => {
+  const cid = url.parse(req.url, true).query.cid;
+  const sql = "select * from tunnelchild where cid=?";
+  SQLConnect(sql, [cid], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "查询成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "查询失败",
+      });
+    }
+  });
+});
+
 export default router;

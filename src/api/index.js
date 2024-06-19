@@ -46,6 +46,16 @@ const api = {
   getProjectUpdate(id, params) {
     return axios.put(base.baseUrl + base.updateProject + id, params);
   },
+
+  //隧道信息tree列表（一级）
+  getTunnelList() {
+    return axios.get(base.baseUrl + base.getTunnelList);
+  },
+
+  //隧道信息tree列表（二级）
+  getTunnelListChild(params) {
+    return axios.get(base.baseUrl + base.getTunnelListChild, { params });
+  },
 };
 
 export default api;

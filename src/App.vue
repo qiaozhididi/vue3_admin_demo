@@ -27,5 +27,10 @@ body,html,#app{
   color: #fff;
 }
 
+/* tree 选中样式 */
+.is-current .el-tree-node__content{
+  background-color: #409EFF !important;
+  color: #fff !important;
+}
 
 </style>
