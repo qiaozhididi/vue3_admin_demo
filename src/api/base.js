@@ -14,8 +14,9 @@ const base = {
   delProject: "/api/project/del", //删除项目信息
   preProjectUpdate: "/api/project/update/pre", //预更新项目信息
   updateProject: "/api/project/update/", //更新项目信息
-  getTunnelList:"/api/tunnel/list",  //隧道列表(tree一级)
-  getTunnelListChild:"/api/tunnel/list/child" //隧道列表(tree二级)
+  getTunnelList: "/api/tunnel/list", //隧道列表(tree一级)
+  getTunnelListChild: "/api/tunnel/list/child", //隧道列表(tree二级)
+  getTunnelContent: "/api/tunnel/content", //隧道内容"
 };
 
 export default base;

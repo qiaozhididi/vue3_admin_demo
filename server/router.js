@@ -286,4 +286,24 @@ router.get("/tunnel/list/child", (req, res) => {
   });
 });
 
+//隧道设计信息内容
+router.get("/tunnel/content", (req, res) => {
+  const content = url.parse(req.url, true).query.content;
+  const sql = "select * from tunnelcontent where content=?";
+  SQLConnect(sql, [content], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "查询成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "查询失败",
+      });
+    }
+  });
+});
+
 export default router;

@@ -56,6 +56,11 @@ const api = {
   getTunnelListChild(params) {
     return axios.get(base.baseUrl + base.getTunnelListChild, { params });
   },
+
+  //隧道信息内容
+  getTunnelContent(params) {
+    return axios.get(base.baseUrl + base.getTunnelContent, { params });
+  },
 };
 
 export default api;
