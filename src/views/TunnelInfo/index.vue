@@ -29,7 +29,10 @@
             <el-button
               type="success"
               size="small"
-              @click="uploadHandle(scope.$index, scope.row)"
+              @click="
+                uploadHandle(scope.$index, scope.row);
+                dialogUploadVisible = true;
+              "
               ><span>上传</span>
             </el-button>
           </template>
@@ -38,23 +41,32 @@
     </div>
   </div>
   <!-- 上传对话框 -->
-  <el-dialog center title="上传文件" v-model="dialogUploadVisible">
+  <el-dialog center title="上传文件" width="40%" v-model="dialogUploadVisible">
     <el-upload
       class="upload"
       v-model:file-list="fileList"
       action="http://localhost:3000/api/upload"
       :limit="1"
-      :on-Exceed="handleExceed"
+      :on-exceed="handleExceed"
       :on-success="handleFileSuccess"
     >
-      <el-button type="primary" size="small" @click="submitUpload"
-        >点击上传</el-button
-      >
+      <el-button type="primary" size="small">点击上传</el-button>
     </el-upload>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogUploadVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogUploadVisible = false"
+        <el-button
+          @click="
+            dialogUploadVisible = false;
+            fileList = [];
+          "
+          >取 消</el-button
+        >
+        <el-button
+          type="primary"
+          @click="
+            dialogUploadVisible = false;
+            fileList = [];
+          "
           >确 定</el-button
         >
       </span>
@@ -63,12 +75,13 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted, ref, watch } from "vue";
 import api from "@/api/index";
 
 //文件上传
-const fileList = ref([]);
 const dialogUploadVisible = ref(false);
+const fileList = ref([]);
+const currentID = ref(0);
 
 const tunnelContent = reactive({
   data: [],
@@ -118,12 +131,14 @@ onMounted(() => {
 
 //表格操作 预览
 const preViewHandle = (index, row) => {
+  currentID.value = row.id;
   console.log(index, row);
 };
 
 //表格操作 上传
 const uploadHandle = (index, row) => {
-  dialogUploadVisible.value = true;
+  currentID.value = row.id;
+  dialogUploadVisible.value = false;
 };
 
 //上传文件超出
@@ -133,7 +148,19 @@ const handleExceed = () => {
 
 //上传文件成功
 const handleFileSuccess = (response, uploadFile) => {
-  console.log(response, uploadFile);
+  api
+    .getTunnelUploadFilePath({
+      id: currentID.value,
+      urlpath: response.url.substr(7),
+    })
+    .then((res) => {
+      console.log(currentID.value);
+      if (res.data.status === 200) {
+        console.log(res.data);
+      } else {
+        console.log(res.data.msg);
+      }
+    });
 };
 </script>
 <style scoped>

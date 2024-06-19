@@ -9,6 +9,7 @@ import { vipData } from "./data/vip.js";
 import { lineData } from "./data/line.js";
 import multer from "multer";
 import fs from "fs";
+import { log } from "console";
 
 // 登录接口
 router.post("/login", (req, res) => {
@@ -336,6 +337,26 @@ router.post("/upload", upload.single("file"), function (req, res, next) {
   console.log("文件大小：%s", file.size);
   console.log("文件保存路径：%s", file.path);
   res.json({ res_code: "0", name: file.originalname, url: file.path });
+});
+
+// 更新隧道设计信息接口
+router.get("/tunnel/content/urlpath", (req, res) => {
+  const id = url.parse(req.url, true).query.id;
+  const urlPath = url.parse(req.url, true).query.urlpath;
+  const sql = "update tunnelcontent set urlpath=? where id=?";
+  SQLConnect(sql, [urlPath, id], (result) => {
+    if (result.affectedRows > 0) {
+      res.send({
+        status: 200,
+        msg: "上传成功",
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "上传失败",
+      });
+    }
+  });
 });
 
 export default router;

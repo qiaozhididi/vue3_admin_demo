@@ -61,6 +61,11 @@ const api = {
   getTunnelContent(params) {
     return axios.get(base.baseUrl + base.getTunnelContent, { params });
   },
+
+  //隧道信息文件上传地址
+  getTunnelUploadFilePath(params) {
+    return axios.get(base.baseUrl + base.uploadFilePath, { params });
+  },
 };
 
 export default api;

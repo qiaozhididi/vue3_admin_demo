@@ -17,6 +17,7 @@ const base = {
   getTunnelList: "/api/tunnel/list", //隧道列表(tree一级)
   getTunnelListChild: "/api/tunnel/list/child", //隧道列表(tree二级)
   getTunnelContent: "/api/tunnel/content", //隧道内容"
+  uploadFilePath:"/api/tunnel/content/urlpath"  //上传文件地址
 };
 
 export default base;
