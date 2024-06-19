@@ -7,7 +7,8 @@ import { jwtSecret } from "./jwtSecret.js";
 import { adminData } from "./data/admin.js";
 import { vipData } from "./data/vip.js";
 import { lineData } from "./data/line.js";
-import { log } from "console";
+import multer from "multer";
+import fs from "fs";
 
 // 登录接口
 router.post("/login", (req, res) => {
@@ -304,6 +305,37 @@ router.get("/tunnel/content", (req, res) => {
       });
     }
   });
+});
+
+//文件上传接口 http://localhost:3000/api/upload
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./upload/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+var createFolder = function (folder) {
+  try {
+    fs.accessSync(folder);
+  } catch (e) {
+    fs.mkdirSync(folder);
+  }
+};
+
+var uploadFolder = "./upload/";
+createFolder(uploadFolder);
+var upload = multer({ storage: storage });
+
+router.post("/upload", upload.single("file"), function (req, res, next) {
+  var file = req.file;
+  console.log("文件类型：%s", file.mimetype);
+  console.log("原始文件名：%s", file.originalname);
+  console.log("文件大小：%s", file.size);
+  console.log("文件保存路径：%s", file.path);
+  res.json({ res_code: "0", name: file.originalname, url: file.path });
 });
 
 export default router;

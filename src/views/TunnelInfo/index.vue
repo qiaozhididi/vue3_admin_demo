@@ -25,22 +25,50 @@
               @click="preViewHandle(scope.$index, scope.row)"
               >预览</el-button
             >
+
             <el-button
               type="success"
               size="small"
               @click="uploadHandle(scope.$index, scope.row)"
-              >上传</el-button
-            >
+              ><span>上传</span>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
   </div>
+  <!-- 上传对话框 -->
+  <el-dialog center title="上传文件" v-model="dialogUploadVisible">
+    <el-upload
+      class="upload"
+      v-model:file-list="fileList"
+      action="http://localhost:3000/api/upload"
+      :limit="1"
+      :on-Exceed="handleExceed"
+      :on-success="handleFileSuccess"
+    >
+      <el-button type="primary" size="small" @click="submitUpload"
+        >点击上传</el-button
+      >
+    </el-upload>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogUploadVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogUploadVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import api from "@/api/index";
+
+//文件上传
+const fileList = ref([]);
+const dialogUploadVisible = ref(false);
 
 const tunnelContent = reactive({
   data: [],
@@ -83,6 +111,11 @@ const defaultProps = {
   label: "name",
 };
 
+//默认加载第一条节点
+onMounted(() => {
+  handleNodeClick({ content: "zb" });
+});
+
 //表格操作 预览
 const preViewHandle = (index, row) => {
   console.log(index, row);
@@ -90,7 +123,17 @@ const preViewHandle = (index, row) => {
 
 //表格操作 上传
 const uploadHandle = (index, row) => {
-  console.log(index, row);
+  dialogUploadVisible.value = true;
+};
+
+//上传文件超出
+const handleExceed = () => {
+  console.log("上传文件超出");
+};
+
+//上传文件成功
+const handleFileSuccess = (response, uploadFile) => {
+  console.log(response, uploadFile);
 };
 </script>
 <style scoped>
@@ -110,5 +153,8 @@ const uploadHandle = (index, row) => {
 }
 .tunnel-content {
   flex: 1;
+}
+.upload {
+  display: inline-block;
 }
 </style>
