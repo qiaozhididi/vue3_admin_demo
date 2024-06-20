@@ -10,11 +10,12 @@
 8. 仓库持久化：pinia-plugin-persist
 9. 图标：element-plus-icons-vue
 
+## 代码运行
+1. npm install
+2. npm run serve
 
-## 跨域解决方案
-1. 前台
-   1. JSONP
-   2. Proxy（开发环境生效）
-2. 后台
-   1. cors解决跨域
-   2. nginx解决跨域
+## 项目打包
+1. npm run build
+
+## 服务器配置
+放在同一个服务器，node运行Server文件夹的index.js
