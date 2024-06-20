@@ -54,7 +54,44 @@
     title="添加用户信息"
     width="40%"
   >
-    
+    <el-form
+      :inline="true"
+      :model="userInfoForm"
+      status-icon
+      label-width="180px"
+    >
+      <el-form-item label="用户名：" width="120px" prop="username">
+        <el-input v-model="userInfoForm.username" />
+      </el-form-item>
+      <el-form-item label="密码：" width="120px" prop="password">
+        <el-input v-model="userInfoForm.password" />
+      </el-form-item>
+      <el-form-item label="用户权限：" width="120px" prop="permission">
+        <el-select
+          v-model="permission"
+          placeholder="选择权限"
+          style="width: 120px"
+          size="large"
+          @change="permissionAddHandle"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="联系电话：" width="120px">
+        <el-input v-model="userInfoForm.phone" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormAddUserVisible = false">取消</el-button>
+        <el-button type="primary" @click="sureUserAddHandle"> 确定 </el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
@@ -65,6 +102,20 @@ import api from "@/api/index";
 const userList = reactive({
   list: [],
 });
+
+const userInfoForm = reactive({
+  username: "",
+  password: "",
+  permission: "",
+  phone: "",
+});
+
+const permission = ref("");
+
+const options = [
+  { value: "admin", label: "管理员" },
+  { value: "vip", label: "普通用户" },
+];
 
 //搜索初始化
 const searchUserInfo = ref("");
@@ -107,6 +158,11 @@ const addUserHandle = () => {
   dialogFormAddUserVisible.value = true;
 };
 
+//添加用户的权限选择
+const permissionAddHandle = (data) => {
+  userInfoForm.permission = data;
+};
+
 //修改用户权限
 const permissionHandle = () => {};
 
@@ -140,6 +196,9 @@ const delUserHandle = (index, row) => {
       });
     });
 };
+
+//确认新增用户
+const sureUserAddHandle = () => {};
 </script>
 <style scoped>
 .add-user {
