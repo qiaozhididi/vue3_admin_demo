@@ -156,6 +156,8 @@ const searchUserHandle = () => {
 //添加用户按钮对话框弹出
 const addUserHandle = () => {
   dialogFormAddUserVisible.value = true;
+  //每次新增先清空信息
+  Object.keys(userInfoForm).forEach((key) => (userInfoForm[key] = ""));
 };
 
 //添加用户的权限选择
@@ -227,6 +229,8 @@ const sureUserAddHandle = () => {
       console.log(e);
     });
 };
+
+//用户信息预更新
 </script>
 <style scoped>
 .add-user {

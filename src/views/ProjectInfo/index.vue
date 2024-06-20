@@ -360,6 +360,7 @@ const projectInfoFrom = reactive({
 //添加按钮对话框弹出
 const addHandle = () => {
   dialogFormAddVisible.value = true;
+  Object.keys(projectInfoFrom).forEach((key) => (projectInfoFrom[key] = ""));
 };
 
 //添加对话框确定事件
