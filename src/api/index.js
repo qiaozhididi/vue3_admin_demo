@@ -73,6 +73,21 @@ const api = {
   getPDFView(params) {
     return axios.get(base.baseUrl + base.getPDFView, { params });
   },
+
+  //获取用户列表
+  getUserList() {
+    return axios.get(base.baseUrl + base.getUserList);
+  },
+
+  //搜索用户
+  getSearchUser(params) {
+    return axios.get(base.baseUrl + base.getUserInfo, { params });
+  },
+
+  //删除用户
+  getDeleteUser(params){
+    return axios.get(base.baseUrl + base.getUserDel, { params })
+  }
 };
 
 export default api;

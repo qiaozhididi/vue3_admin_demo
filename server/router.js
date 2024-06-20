@@ -379,4 +379,65 @@ router.get("/tunnel/pdf", (req, res) => {
   });
 });
 
+//用户列表
+router.get("/user/list", (req, res) => {
+  const sql = "select * from user";
+  SQLConnect(sql, [], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "获取成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "获取失败",
+      });
+    }
+  });
+});
+
+//查询用户信息
+router.get("/user/userinfo", (req, res) => {
+  const searchUserInfo = url.parse(req.url, true).query.userinfo;
+  const sql =
+    "SELECT * FROM user WHERE CONCAT(`username`,`permission`,`phone`) LIKE '%" +
+    searchUserInfo +
+    "%'";
+  SQLConnect(sql, null, (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        msg: "获取成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "获取失败",
+      });
+    }
+  });
+});
+
+//删除用户信息
+router.get("/user/del", (req, res) => {
+  let id = url.parse(req.url, true).query.id;
+  let sql = "delete from user where id=?";
+  SQLConnect(sql, [id], (result) => {
+    if (result.affectedRows > 0) {
+      res.send({
+        status: 200,
+        msg: "删除成功",
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "删除失败",
+      });
+    }
+  });
+});
+
 export default router;
