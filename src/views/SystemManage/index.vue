@@ -198,7 +198,35 @@ const delUserHandle = (index, row) => {
 };
 
 //确认新增用户
-const sureUserAddHandle = () => {};
+const sureUserAddHandle = () => {
+  api
+    .getAddUser({
+      username: userInfoForm.username,
+      password: userInfoForm.password,
+      permission: userInfoForm.permission,
+      phone: userInfoForm.phone,
+    })
+    .then((res) => {
+      if (res.data.status === 200) {
+        dialogFormAddUserVisible.value = false;
+        ElMessage({
+          type: "success",
+          message: res.data.msg,
+        });
+        getUserList();
+      } else {
+        dialogFormAddUserVisible.value = false;
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+        });
+        getUserList();
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 </script>
 <style scoped>
 .add-user {

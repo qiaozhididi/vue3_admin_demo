@@ -86,13 +86,18 @@ const api = {
 
   //添加用户
   getAddUser(params) {
-    return axios.get(base.baseUrl + base.getAddUser, { params });
+    return axios.get(base.baseUrl + base.getUserAdd, { params });
   },
-  
+
   //删除用户
   getDeleteUser(params) {
     return axios.get(base.baseUrl + base.getUserDel, { params });
   },
+
+  //修改用户权限
+  getUpdateUser(params){
+    return axios.get(base.baseUrl + base.getUserDUpdate, { params });
+  }
 };
 
 export default api;

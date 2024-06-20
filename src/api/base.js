@@ -17,12 +17,13 @@ const base = {
   getTunnelList: "/api/tunnel/list", //隧道列表(tree一级)
   getTunnelListChild: "/api/tunnel/list/child", //隧道列表(tree二级)
   getTunnelContent: "/api/tunnel/content", //隧道内容"
-  uploadFilePath:"/api/tunnel/content/urlpath",  //上传文件地址
-  getPDFView:"/api/tunnel/pdf",  //pdf预览
-  getUserList:"/api/user/list", //用户列表
-  getUserInfo:"/api/user/userinfo",  //用户搜索
-  getUserDel:"/api/user/del", //删除用户
-  getUserAdd:"api/user/add"// 添加用户
+  uploadFilePath: "/api/tunnel/content/urlpath", //上传文件地址
+  getPDFView: "/api/tunnel/pdf", //pdf预览
+  getUserList: "/api/user/list", //用户列表
+  getUserInfo: "/api/user/userinfo", //用户搜索
+  getUserDel: "/api/user/del", //删除用户
+  getUserAdd: "/api/user/add", // 添加用户
+  getUserUpdate: "/api/user/update", //修改用户权限
 };
 
 export default base;
