@@ -94,10 +94,15 @@ const api = {
     return axios.get(base.baseUrl + base.getUserDel, { params });
   },
 
+  //用户预更新
+  getPreUpdateUser(params) {
+    return axios.get(base.baseUrl + base.getUserUpdatePre, { params });
+  },
+
   //修改用户权限
-  getUpdateUser(params){
-    return axios.get(base.baseUrl + base.getUserDUpdate, { params });
-  }
+  getUpdateUser(params) {
+    return axios.get(base.baseUrl + base.getUserUpdate, { params });
+  },
 };
 
 export default api;

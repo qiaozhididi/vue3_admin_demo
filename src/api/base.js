@@ -23,6 +23,7 @@ const base = {
   getUserInfo: "/api/user/userinfo", //用户搜索
   getUserDel: "/api/user/del", //删除用户
   getUserAdd: "/api/user/add", // 添加用户
+  getUserUpdatePre: "/api/user/preview", //用户预更新
   getUserUpdate: "/api/user/update", //修改用户权限
 };
 

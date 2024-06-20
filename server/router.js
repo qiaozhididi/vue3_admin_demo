@@ -462,4 +462,23 @@ router.get("/user/del", (req, res) => {
   });
 });
 
+//修改用户预更新
+router.get("/user/preview", (req, res) => {
+  const id = url.parse(req.url, true).query.id;
+  const sql = "select * from user where id = ?";
+  SQLConnect(sql, [id], (result) => {
+    if (result.length > 0) {
+      res.send({
+        status: 200,
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "查询失败",
+      });
+    }
+  });
+});
+
 export default router;

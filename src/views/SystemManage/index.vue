@@ -38,7 +38,9 @@
     <el-table-column prop="phone" label="联系电话" width="150" />
     <el-table-column label="操作">
       <template #default="scope">
-        <el-button size="small" @click="permissionHandle">修改权限</el-button>
+        <el-button size="small" @click="userEditHandle(scope.$index, scope.row)"
+          >修改权限</el-button
+        >
         <el-button
           type="danger"
           size="small"
@@ -48,6 +50,7 @@
       </template>
     </el-table-column>
   </el-table>
+  <!-- 新增用户 -->
   <el-dialog
     center
     v-model="dialogFormAddUserVisible"
@@ -93,6 +96,54 @@
       </div>
     </template>
   </el-dialog>
+  <!-- 编辑用户 -->
+  <el-dialog
+    center
+    v-model="dialogFormUpdateUserVisible"
+    title="添加用户信息"
+    width="40%"
+  >
+    <el-form
+      :inline="true"
+      :model="userUpdateInfoForm"
+      status-icon
+      label-width="180px"
+    >
+      <el-form-item label="用户名：" width="120px" prop="username">
+        <el-input v-model="userUpdateInfoForm.username" disabled />
+      </el-form-item>
+      <el-form-item label="密码：" width="120px" prop="password">
+        <el-input v-model="userUpdateInfoForm.password" type="password" />
+      </el-form-item>
+      <el-form-item label="用户权限：" width="120px" prop="permission">
+        <el-select
+          v-model="permission"
+          placeholder="选择权限"
+          style="width: 120px"
+          size="large"
+          @change="permissionUpdateHandle"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :value="item.value"
+            :label="item.label"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="联系电话：" width="120px">
+        <el-input v-model="userUpdateInfoForm.phone" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogFormUpdateUserVisible = false">取消</el-button>
+        <el-button type="primary" @click="sureUserUpdateHandle">
+          确定
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -120,6 +171,7 @@ const options = [
 //搜索初始化
 const searchUserInfo = ref("");
 const dialogFormAddUserVisible = ref(false);
+const dialogFormUpdateUserVisible = ref(false);
 
 onMounted(() => {
   getUserList();
@@ -161,12 +213,39 @@ const addUserHandle = () => {
 };
 
 //添加用户的权限选择
-const permissionAddHandle = (data) => {
+const permissionHandle = (data) => {
   userInfoForm.permission = data;
 };
 
-//修改用户权限
-const permissionHandle = () => {};
+const userUpdateInfoForm = reactive({
+  username: "",
+  password: "",
+  permission: "",
+  phone: "",
+});
+//修改用户
+const userEditHandle = (index, row) => {
+  dialogFormUpdateUserVisible.value = true;
+  api
+    .getPreUpdateUser({
+      id: row.id,
+    })
+    .then((res) => {
+      if (res.data.status === 200) {
+        userUpdateInfoForm.username = res.data.result[0].username;
+        userUpdateInfoForm.password = res.data.result[0].password;
+        userUpdateInfoForm.permission = res.data.result[0].permission;
+        userUpdateInfoForm.phone = res.data.result[0].phone;
+      }
+    });
+};
+//修改用户的权限选择
+const permissionUpdateHandle = (data) => {
+  userUpdateInfoForm.permission = data;
+};
+
+//确认修改
+const sureUserUpdateHandle = () => {};
 
 //删除用户
 const delUserHandle = (index, row) => {
