@@ -422,10 +422,26 @@ router.get("/user/userinfo", (req, res) => {
 });
 
 //添加用户接口
-router.get("/user/add",(req,res)=>{
-  
-})
-
+router.get("/user/add", (req, res) => {
+  const username = url.parse(req.url, true).query.username;
+  const password = url.parse(req.url, true).query.password;
+  const permission = url.parse(req.url, true).query.permission;
+  const phone = url.parse(req.url, true).query.phone;
+  const sql = "insert into user values (null,?,?,?,?)";
+  SQLConnect(sql, [username, password, permission, phone], (result) => {
+    if (result.affectedRows > 0) {
+      res.send({
+        status: 200,
+        msg: "新增成功",
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "新增失败",
+      });
+    }
+  });
+});
 
 //删除用户接口
 router.get("/user/del", (req, res) => {
@@ -445,6 +461,5 @@ router.get("/user/del", (req, res) => {
     }
   });
 });
-
 
 export default router;

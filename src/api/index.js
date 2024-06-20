@@ -84,10 +84,15 @@ const api = {
     return axios.get(base.baseUrl + base.getUserInfo, { params });
   },
 
+  //添加用户
+  getAddUser(params) {
+    return axios.get(base.baseUrl + base.getAddUser, { params });
+  },
+  
   //删除用户
-  getDeleteUser(params){
-    return axios.get(base.baseUrl + base.getUserDel, { params })
-  }
+  getDeleteUser(params) {
+    return axios.get(base.baseUrl + base.getUserDel, { params });
+  },
 };
 
 export default api;
