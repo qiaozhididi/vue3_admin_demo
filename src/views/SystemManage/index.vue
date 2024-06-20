@@ -109,7 +109,7 @@
       status-icon
       label-width="180px"
     >
-      <el-form-item label="用户名：" width="120px" prop="username">
+      <el-form-item label="用户名：" width="120px">
         <el-input v-model="userUpdateInfoForm.username" disabled />
       </el-form-item>
       <el-form-item label="密码：" width="120px" prop="password">
@@ -162,6 +162,8 @@ const userInfoForm = reactive({
 });
 
 const permission = ref("");
+
+const EditorID = ref(0);
 
 const options = [
   { value: "admin", label: "管理员" },
@@ -226,6 +228,7 @@ const userUpdateInfoForm = reactive({
 //修改用户
 const userEditHandle = (index, row) => {
   dialogFormUpdateUserVisible.value = true;
+  EditorID.value = row.id;
   api
     .getPreUpdateUser({
       id: row.id,
@@ -234,8 +237,8 @@ const userEditHandle = (index, row) => {
       if (res.data.status === 200) {
         userUpdateInfoForm.username = res.data.result[0].username;
         userUpdateInfoForm.password = res.data.result[0].password;
-        userUpdateInfoForm.permission = res.data.result[0].permission;
         userUpdateInfoForm.phone = res.data.result[0].phone;
+        permission.value = res.data.result[0].permission;
       }
     });
 };
@@ -245,7 +248,36 @@ const permissionUpdateHandle = (data) => {
 };
 
 //确认修改
-const sureUserUpdateHandle = () => {};
+const sureUserUpdateHandle = () => {
+  api
+    .getUpdateUser({
+      id: EditorID.value,
+      password: userUpdateInfoForm.password,
+      permission: userUpdateInfoForm.permission,
+      phone: userUpdateInfoForm.phone,
+    })
+    .then((res) => {
+      console.log(res.data);
+      if (res.data.status === 200) {
+        dialogFormUpdateUserVisible.value = false;
+        ElMessage({
+          type: "success",
+          message: res.data.msg,
+        });
+        getUserList();
+      } else {
+        dialogFormUpdateUserVisible.value = false;
+        ElMessage({
+          type: "error",
+          message: res.data.msg,
+        });
+        getUserList();
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
 
 //删除用户
 const delUserHandle = (index, row) => {

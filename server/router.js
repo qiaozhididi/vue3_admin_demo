@@ -481,4 +481,27 @@ router.get("/user/preview", (req, res) => {
   });
 });
 
+//修改用户
+router.get("/user/update", (req, res) => {
+  const id = url.parse(req.url, true).query.id;
+  const password = url.parse(req.url, true).query.password;
+  const permission = url.parse(req.url, true).query.permission;
+  const phone = url.parse(req.url, true).query.phone;
+  const sql = "update user set password=?,permission=?,phone=? where id=?";
+  SQLConnect(sql, [password, permission, phone, id], (result) => {
+    if (result.affectedRows  > 0) {
+      res.send({
+        status: 200,
+        msg: "修改成功",
+        result,
+      });
+    } else {
+      res.send({
+        status: 500,
+        msg: "修改失败",
+      });
+    }
+  });
+});
+
 export default router;
