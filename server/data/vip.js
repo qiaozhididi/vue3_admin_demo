@@ -35,10 +35,5 @@ export const vipData = {
       name: "超前地质预报",
       icon: "ShoppingTrolley",
     },
-    {
-      path: "/system",
-      name: "系统信息管理",
-      icon: "Wallet",
-    },
   ],
 };
