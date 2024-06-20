@@ -421,7 +421,7 @@ router.get("/user/userinfo", (req, res) => {
   });
 });
 
-//删除用户信息
+//删除用户信息接口
 router.get("/user/del", (req, res) => {
   let id = url.parse(req.url, true).query.id;
   let sql = "delete from user where id=?";
